@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.ParseException;
 import android.os.Bundle;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +19,20 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
+
 import android.util.Log;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyError;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Albums;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+
 
 
     private static final String CLIENT_ID = "2e42d37ff4024cffa8b868e7a30061ca";
@@ -48,6 +61,24 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         recyclerView.setAdapter(recyclerAdapter);
+
+
+        SpotifyApi api = new SpotifyApi();
+
+        // Most (but not all) of the Spotify Web API endpoints require authorisation.
+        // If you know you'll only use the ones that don't require authorisation you can skip this step
+        api.setAccessToken("06AKEBrKUckW0KREUWRnvT");
+
+        SpotifyService spotify = api.getService();
+        try {
+            spotify.getAlbum("0vrKGjXSGcTsxNGxQdXT5p");
+        } catch (RetrofitError error) {
+            SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+            // handle error
+            System.out.println(spotifyError.getErrorDetails());
+        }
+
+
     }
 
     private void preparePlaylist(){
