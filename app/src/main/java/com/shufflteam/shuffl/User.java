@@ -1,8 +1,19 @@
 package com.shufflteam.shuffl;
 
-public class User {
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class User extends AppCompatActivity implements View.OnTouchListener{
+
     private final Point position;
     private final String username;
+    private float dX, dY;
+    private Button ball;
 
     public User(String username){
         position = new Point(0,0);
@@ -15,5 +26,40 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_room);
+        mainLayout = (RelativeLayout) findViewById(R.id.);
+        ball = (Button) findViewById(R.id.user1);
+
+        ball.setOnTouchListener(onTouch());
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+
+                dX = view.getX() - event.getRawX();
+                dY = view.getY() - event.getRawY();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+
+                view.animate()
+                        .x(event.getRawX() + dX)
+                        .y(event.getRawY() + dY)
+                        .setDuration(0)
+                        .start();
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 }
