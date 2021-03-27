@@ -2,15 +2,27 @@ package com.shufflteam.shuffl;
 
 public class Playlist {
 
-    private String name;
+    private String title;
+    private int image;
 
-    public Playlist(String name) {
-        this.name = name;
+    public Playlist(String title, int image) {
+        this.title = title;
+        this.image = image;
     }
-    public String getName() {
-        return name;
+
+    public String getTitle() {
+        return title;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

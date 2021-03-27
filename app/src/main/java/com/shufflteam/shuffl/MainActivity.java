@@ -51,13 +51,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void preparePlaylist(){
-        Playlist playlist = new Playlist("Test 1");
+        Playlist playlist = new Playlist("Test 1", R.drawable.playlist_image);
         playlists.add(playlist);
-        playlist = new Playlist("Test 2");
+        playlist = new Playlist("Test 2", R.drawable.playlist_image);
         playlists.add(playlist);
-        playlist = new Playlist("Test 3");
+        playlist = new Playlist("Test 3", R.drawable.playlist_image);
         playlists.add(playlist);
-        playlist = new Playlist("Test 4");
+        playlist = new Playlist("Test 4", R.drawable.playlist_image);
+        playlists.add(playlist);
+        playlist = new Playlist("Test 5", R.drawable.playlist_image);
+        playlists.add(playlist);
+        playlist = new Playlist("Test 6", R.drawable.playlist_image);
+        playlists.add(playlist);
+        playlist = new Playlist("Test 7", R.drawable.playlist_image);
         playlists.add(playlist);
     }
 
