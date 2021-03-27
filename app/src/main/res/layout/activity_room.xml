@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2D343E">
+    android:id="@+id/room"
 
     <ImageView
         android:id="@+id/LoudSpeakerLeft"
@@ -67,5 +68,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/speaker_icon_quiet" />
+
+    <Button
+        android:id="@+id/user1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="VL"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="236dp"
+        tools:layout_editor_absoluteY="321dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
