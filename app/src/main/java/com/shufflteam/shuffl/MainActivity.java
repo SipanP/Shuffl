@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<PlaylistCard> playlistCards;
     private RecyclerView recyclerView;
-    RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
 //            @Override
 //            public void onItemClick(Playlist data) {
-//                Toast.makeText(MainActivity.this, data.getName(), Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(MainActivity.this, RoomActivity.class));
 //            }
 //        });
         recyclerView.setAdapter(recyclerAdapter);
