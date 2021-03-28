@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -19,11 +20,12 @@ import java.util.Random;
 
 public class RoomActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    private float dX, dY;
-    private Button ball;
+    private TextView songTitle;
     private RelativeLayout ballBox;
+    private Button ball;
     private User currentUser;
     private List<User> otherUsers = new ArrayList<>();
+    private float dX, dY;
     int numOfOtherUsers = 2;
     private final Random rand = new Random();
     private boolean setup = false;
@@ -39,6 +41,8 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
         super.onWindowFocusChanged(hasFocus);
         if (!setup) {
             setup = true;
+            songTitle = (TextView) findViewById(R.id.songTitle);
+            songTitle.setText("Abc");
             ballBox = (RelativeLayout) findViewById(R.id.ballBox);
             ball = (Button) findViewById(R.id.currentUser);
             ball.setOnTouchListener(this);
