@@ -167,7 +167,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    public void updateVolume(){
+    public void updateVolume() {
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // Takes distance to speaker / total possible distance
         double screenRatio = currentUser.getPosition().distanceTo(ballBox.getHeight()) / ballBox.getHeight();
