@@ -30,7 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(com.shufflteam.shuffl.RecyclerAdapter.MyViewHolder holder, final int position) {
         final com.shufflteam.shuffl.PlaylistCard playlist = playlists.get(position);
         holder.title.setText(playlist.getTitle());
-        holder.image.setBackgroundResource(playlist.getImage());
+        holder.image.setBackground(playlist.getImage());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

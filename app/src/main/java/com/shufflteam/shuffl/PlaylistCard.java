@@ -1,11 +1,14 @@
 package com.shufflteam.shuffl;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
 public class PlaylistCard {
 
     private String title;
-    private int image;
+    private Drawable image;
 
-    public PlaylistCard(String title, int image) {
+    public PlaylistCard(String title, Drawable image) {
         this.title = title;
         this.image = image;
     }
@@ -18,11 +21,11 @@ public class PlaylistCard {
         this.title = title;
     }
 
-    public int getImage() {
+    public Drawable getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(Drawable image) {
         this.image = image;
     }
 }
