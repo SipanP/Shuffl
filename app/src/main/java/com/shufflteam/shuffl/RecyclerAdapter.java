@@ -13,10 +13,10 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
-    private List<com.shufflteam.shuffl.Playlist> playlists;
+    private List<PlaylistCard> playlistCards;
 
-    RecyclerAdapter(List<com.shufflteam.shuffl.Playlist> playlists){
-        this.playlists = playlists;
+    RecyclerAdapter(List<PlaylistCard> playlistCards){
+        this.playlistCards = playlistCards;
     }
 
     @Override
@@ -27,14 +27,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(com.shufflteam.shuffl.RecyclerAdapter.MyViewHolder holder, final int position) {
-        final com.shufflteam.shuffl.Playlist playlist = playlists.get(position);
-        holder.title.setText(playlist.getTitle());
-        holder.image.setBackgroundResource(playlist.getImage());
+        final PlaylistCard playlistCard = playlistCards.get(position);
+        holder.title.setText(playlistCard.getTitle());
+        holder.image.setBackgroundResource(playlistCard.getImage());
     }
 
     @Override
     public int getItemCount() {
-        return playlists.size();
+        return playlistCards.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

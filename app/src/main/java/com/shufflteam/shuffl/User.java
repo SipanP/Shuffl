@@ -32,10 +32,10 @@ public class User extends AppCompatActivity implements View.OnTouchListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        mainLayout = (RelativeLayout) findViewById(R.id.);
+        //mainLayout = (RelativeLayout) findViewById(R.id.);
         ball = (Button) findViewById(R.id.user1);
 
-        ball.setOnTouchListener(onTouch());
+        //ball.setOnTouchListener(onTouch());
     }
 
     @Override

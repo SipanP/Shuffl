@@ -1,11 +1,11 @@
 package com.shufflteam.shuffl;
 
-public class Playlist {
+public class PlaylistCard {
 
     private String title;
     private int image;
 
-    public Playlist(String title, int image) {
+    public PlaylistCard(String title, int image) {
         this.title = title;
         this.image = image;
     }

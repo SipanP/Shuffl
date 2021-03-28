@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.net.ParseException;
 import android.os.Bundle;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +13,9 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
 import android.util.Log;
-
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Albums;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "com.shufflteam.shuffl://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
 
-    private List<Playlist> playlists;
+    private List<PlaylistCard> playlistCards;
     private RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
 
@@ -48,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playlists = new ArrayList<>();
+        playlistCards = new ArrayList<>();
         preparePlaylist();
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(playlists);
+        recyclerAdapter = new RecyclerAdapter(playlistCards);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
@@ -63,39 +50,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
 
 
-        SpotifyApi api = new SpotifyApi();
-
-        // Most (but not all) of the Spotify Web API endpoints require authorisation.
-        // If you know you'll only use the ones that don't require authorisation you can skip this step
-        api.setAccessToken("06AKEBrKUckW0KREUWRnvT");
-
-        SpotifyService spotify = api.getService();
-        try {
-            spotify.getAlbum("0vrKGjXSGcTsxNGxQdXT5p");
-        } catch (RetrofitError error) {
-            SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
-            // handle error
-            System.out.println(spotifyError.getErrorDetails());
-        }
-
-
     }
 
     private void preparePlaylist(){
-        Playlist playlist = new Playlist("Test 1", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 2", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 3", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 4", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 5", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 6", R.drawable.playlist_image);
-        playlists.add(playlist);
-        playlist = new Playlist("Test 7", R.drawable.playlist_image);
-        playlists.add(playlist);
+        PlaylistCard playlistCard = new PlaylistCard("Test 1", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 2", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 3", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 4", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 5", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 6", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
+        playlistCard = new PlaylistCard("Test 7", R.drawable.playlist_image);
+        playlistCards.add(playlistCard);
     }
 
 
