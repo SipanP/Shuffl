@@ -43,8 +43,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
 
             case MotionEvent.ACTION_MOVE:
 
-                float newX = event.getRawX() + dX;
-                float newY = event.getRawX() + dY;
+                float newX = Math.min(Math.max(event.getRawX() + dX, ballView.getLeft()), ballView.getRight());
+                float newY = Math.min(Math.max(event.getRawY() + dY, ballView.getTop()), ballView.getBottom());
+                System.out.println(newY);
+                System.out.println(ballView.getBottom());
 
                 view.animate()
                         .x(newX)
