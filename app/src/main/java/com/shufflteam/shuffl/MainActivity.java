@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new RecyclerAdapter(playlists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
-            @Override
-            public void onItemClick(Playlist data) {
-                startActivity(new Intent(MainActivity.this, RoomActivity.class));
-            }
-        });
+//        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
+//            @Override
+//            public void onItemClick(Playlist data) {
+//                startActivity(new Intent(MainActivity.this, RoomActivity.class));
+//            }
+//        });
         recyclerView.setAdapter(recyclerAdapter);
     }
 

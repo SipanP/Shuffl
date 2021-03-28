@@ -1,5 +1,6 @@
 package com.shufflteam.shuffl;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
     private List<com.shufflteam.shuffl.Playlist> playlists;
-    private ClickListener<Playlist> clickListener;
+    //private ClickListener<Playlist> clickListener;
 
     RecyclerAdapter(List<com.shufflteam.shuffl.Playlist> playlists){
         this.playlists = playlists;
@@ -34,7 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(playlist);
+                v.getContext().startActivity(new Intent(v.getContext(), RoomActivity.class));
             }
         });
     }
@@ -55,9 +56,5 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             image = itemView.findViewById(R.id.image);
             cardView = itemView.findViewById(R.id.cardView);
         }
-    }
-
-    public void setOnItemClickListener(ClickListener<Playlist> playlistClickListener) {
-        this.clickListener = playlistClickListener;
     }
 }

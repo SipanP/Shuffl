@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class User extends AppCompatActivity implements View.OnTouchListener{
+public class User extends AppCompatActivity implements View.OnTouchListener {
 
     private final Point position;
     private final String username;
@@ -19,6 +19,10 @@ public class User extends AppCompatActivity implements View.OnTouchListener{
     public User(String username){
         position = new Point(0,0);
         this.username = username;
+
+        ballView = (View) findViewById(R.id.ballView);
+        ball = (Button) findViewById(R.id.user1);
+        ball.setOnTouchListener(this);
     }
 
     public Point getPosition() {
@@ -33,14 +37,13 @@ public class User extends AppCompatActivity implements View.OnTouchListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        ballView = (View) findViewById(R.id.ballView);
-        ball = (Button) findViewById(R.id.user1);
 
-        ball.setOnTouchListener(this);
+        System.out.println("Created");
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        System.out.println("Clicked");
 
         switch (event.getAction()) {
 
