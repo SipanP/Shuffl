@@ -29,65 +29,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/ballView"
+    <RelativeLayout
+        android:id="@+id/ballBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/songTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/songTitle">
 
-    <ImageView
-        android:id="@+id/LoudSpeakerLeft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ballView"
-        app:srcCompat="@drawable/speaker_icon_loud" />
+        <ImageView
+            android:id="@+id/LoudSpeakerLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/speaker_icon_loud" />
 
-    <ImageView
-        android:id="@+id/LoudSpeakerRight"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:rotation="0"
-        android:rotationX="0"
-        android:rotationY="0"
-        android:scaleX="-1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ballView"
-        app:srcCompat="@drawable/speaker_icon_loud" />
+        <ImageView
+            android:id="@+id/LoudSpeakerRight"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleX="-1"
+            app:srcCompat="@drawable/speaker_icon_loud" />
 
-    <ImageView
-        android:id="@+id/QuietSpeakerRight"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleX="-1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/speaker_icon_quiet" />
+        <ImageView
+            android:id="@+id/QuietSpeakerRight"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:scaleX="-1"
+            app:srcCompat="@drawable/speaker_icon_quiet" />
 
-    <ImageView
-        android:id="@+id/QuietSpeakerLeft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/speaker_icon_quiet" />
+        <ImageView
+            android:id="@+id/QuietSpeakerLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            app:srcCompat="@drawable/speaker_icon_quiet" />
 
-    <Button
-        android:id="@+id/user1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginBottom="340dp"
-        android:background="@drawable/round_button"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="VL"
-        android:textColor="#fff"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/ballView" />
+        <Button
+            android:id="@+id/currentUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            app:backgroundTint="@null"
+            android:background="@drawable/round_button"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="V"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
