@@ -18,4 +18,8 @@ public class User {
     public Point getPosition() {
         return position;
     }
+
+    public String getInitial() {
+        return username.substring(0,1);
+    }
 }
