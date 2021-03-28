@@ -18,8 +18,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     private List<com.shufflteam.shuffl.PlaylistCard> playlists;
     //private ClickListener<Playlist> clickListener;
 
-    RecyclerAdapter(List<PlaylistCard> playlistCards){
-        this.playlistCards = playlistCards;
+    RecyclerAdapter(List<PlaylistCard> playlists){
+        this.playlists = playlists;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return playlistCards.size();
+        return playlists.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

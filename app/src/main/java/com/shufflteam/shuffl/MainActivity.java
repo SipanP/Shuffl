@@ -15,8 +15,26 @@ import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.types.Track;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import android.os.StrictMode;
 import android.util.Log;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyError;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,24 +49,96 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        playlistCards = new ArrayList<>();
-        preparePlaylist();
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(playlistCards);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+    public static final int AUTH_TOKEN_REQUEST_CODE = 0x10;
+    private String mAccessToken;
+
+    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
+        return new AuthorizationRequest.Builder(CLIENT_ID, type, "com.shufflteam.shuffl://callback")
+                .setShowDialog(false)
+                .setScopes(new String[]{"user-read-email"})
+                .setCampaign("your-campaign-token")
+                .build();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
+        if (response.getError() != null && response.getError().isEmpty()) {
+            System.out.println("Error");
+//            setResponse(response.getError());
+        }
+        if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
+            mAccessToken = response.getAccessToken();
+            System.out.println(mAccessToken);
+
+            final String accessToken = mAccessToken;
+
+            SpotifyApi spotifyApi = new SpotifyApi();
+
+            if (accessToken != null) {
+                spotifyApi.setAccessToken(accessToken);
+            } else {
+                System.out.println("No valid access token");
+            }
+            SpotifyService spotify = spotifyApi.getService();
+
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+            StrictMode.setThreadPolicy(policy);
+            playlistCards = new ArrayList<>();
+
+            String currentUserID = null;
+            try {
+                currentUserID = spotify.getMe().id;
+            } catch (RetrofitError error) {
+                SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+                // handle error
+            }
+            try {
+                Pager<PlaylistSimple> playlistPager = spotify.getPlaylists(currentUserID);
+                for (PlaylistSimple playlist : playlistPager.items){
+                    PlaylistCard playlistCard = new PlaylistCard(playlist.name, R.drawable.playlist_image);
+                    playlistCards.add(playlistCard);
+                    System.out.println(playlist.name);
+                }
+            } catch (RetrofitError error) {
+                SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+                // handle error
+            }
+
+            // Set up the playlist cards.
+
+            recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+            recyclerAdapter = new RecyclerAdapter(playlistCards);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
 //        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
 //            @Override
 //            public void onItemClick(Playlist data) {
 //                startActivity(new Intent(MainActivity.this, RoomActivity.class));
 //            }
 //        });
-        recyclerView.setAdapter(recyclerAdapter);
+            recyclerView.setAdapter(recyclerAdapter);
+        }
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Connect to Spotify API.
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+        AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request);
+
+
+
+
 
 
     }
