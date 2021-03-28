@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    SpotifyService spotify;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,13 +84,24 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 System.out.println("No valid access token");
             }
-            SpotifyService spotify = spotifyApi.getService();
+            spotify = spotifyApi.getService();
 
 
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
             StrictMode.setThreadPolicy(policy);
+
+
             playlistCards = new ArrayList<>();
+
+            try {
+                for (PlaylistTrack track : spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL").items) {
+                    System.out.println(track.track.name);
+                }
+            } catch (RetrofitError error) {
+                SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+                // handle error
+            }
+
 
             String currentUserID = null;
             try {
@@ -199,7 +211,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void connected() {
         // Play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
+        try {
+            mSpotifyAppRemote.getPlayerApi().play(spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL").items.get(0).track.uri);
+        } catch (RetrofitError error) {
+            SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+            // handle error
+        }
+
+        //mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
         System.out.println("Testing");
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
