@@ -34,7 +34,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.getContext().startActivity(new Intent(v.getContext(), RoomActivity.class));
+                String roomId = MainActivity.joinRoom();
+                Intent intent = new Intent(v.getContext(), RoomActivity.class);
+                intent.putExtra("roomId", roomId);
+                v.getContext().startActivity(intent);
             }
         });
     }

@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    SpotifyService spotify;
+    static SpotifyService spotify;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -256,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
             // handle error
         }
 
-        //mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
         System.out.println("Testing");
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
@@ -326,5 +325,11 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
 
+    }
+
+    public static String currentRoomId;
+
+    public static String joinRoom() {
+       return "6060672f9bab6800153ba661";
     }
 }

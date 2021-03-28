@@ -1,6 +1,7 @@
 package com.shufflteam.shuffl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -14,9 +15,26 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import kaaes.spotify.webapi.android.SpotifyError;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import retrofit.RetrofitError;
+
+import static com.shufflteam.shuffl.MainActivity.spotify;
 
 public class RoomActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -29,20 +47,75 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     int numOfOtherUsers = 2;
     private final Random rand = new Random();
     private boolean setup = false;
+    String roomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        songTitle = (TextView) findViewById(R.id.songTitle);
+        songTitle.setText("Abc");
+        roomId = getIntent().getStringExtra("roomId");
+        getCurrentSong();
     }
+
+
+    private String getCurrentSong(){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://shuffl-backend.herokuapp.com/api/rooms";
+
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        System.out.println("Response is: "+ response);
+                        try {
+                            JSONArray obj = new JSONArray(response);
+                            for(int i = 0; i < obj.length(); i++) {
+                                if (((JSONObject) obj.get(i)).get("_id").equals(roomId)) {
+                                    System.out.println(((JSONObject) obj.get(i)).get("songPlaying"));
+                                    try {
+                                        songTitle.setText(spotify.getTrack(((JSONObject) obj.get(i)).getString("currentSong")).name);
+                                    } catch (RetrofitError error) {
+                                        SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+                                        // handle error
+                                    }
+
+                                }
+//                                else {
+//                                    System.out.println("no match");
+//                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        return "";
+    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (!setup) {
             setup = true;
-            songTitle = (TextView) findViewById(R.id.songTitle);
-            songTitle.setText("Abc");
+
             ballBox = (RelativeLayout) findViewById(R.id.ballBox);
             ball = (Button) findViewById(R.id.currentUser);
             ball.setOnTouchListener(this);
