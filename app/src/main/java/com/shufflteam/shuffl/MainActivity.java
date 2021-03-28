@@ -7,8 +7,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.android.volley.Response;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -22,6 +38,12 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 import android.os.StrictMode;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -34,7 +56,7 @@ import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
+//import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -135,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
             recyclerView.setAdapter(recyclerAdapter);
+
         }
     }
 
@@ -147,12 +170,6 @@ public class MainActivity extends AppCompatActivity {
         // Connect to Spotify API.
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request);
-
-
-
-
-
-
     }
 
     private void preparePlaylist(){
@@ -212,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     private void connected() {
         // Play a playlist
         try {
-            mSpotifyAppRemote.getPlayerApi().play(spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL").items.get(0).track.uri);
+//            mSpotifyAppRemote.getPlayerApi().play(spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL").items.get(0).track.uri);
         } catch (RetrofitError error) {
             SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
             // handle error
@@ -229,5 +246,64 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("MainActivity", track.name + " by " + track.artist.name);
                     }
                 });
+
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://shuffl-backend.herokuapp.com/api/rooms";
+
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        System.out.println("Response is: "+ response);
+                        try {
+                            JSONArray obj = new JSONArray(response);
+                            for(int i = 0; i < obj.length(); i++) {
+                                System.out.println(((JSONObject) obj.get(i)).get("_id"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("roomType", "Jazz");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
+
     }
 }
