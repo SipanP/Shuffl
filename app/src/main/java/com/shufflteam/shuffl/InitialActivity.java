@@ -155,7 +155,6 @@ public class InitialActivity extends AppCompatActivity {
                 @Override
                 public void success(UserPrivate userPrivate, Response response) {
                     System.out.println("Obtained User Information.");
-
                 }
 
                 @Override
