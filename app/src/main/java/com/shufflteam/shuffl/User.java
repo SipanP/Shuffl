@@ -1,5 +1,7 @@
 package com.shufflteam.shuffl;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,10 +62,21 @@ public class User extends AppCompatActivity implements View.OnTouchListener {
                         .y(event.getRawY() + dY)
                         .setDuration(0)
                         .start();
+                position.setTo((event.getRawX() + dX),(event.getRawY() + dY));
+                updateVolume();
                 break;
             default:
                 return false;
         }
         return true;
+    }
+
+    public void updateVolume(){
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        // Takes distance to speaker / total possible distance
+        double screenRatio = position.distanceTo(5);
+        // Sets volume to MAXVOLUME * the above ratio (NEED CONSTANTS)
+        // STREAM_MUSIC is dependant on the kind of audio used (If a call, use RING or something)
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) Math.round(screenRatio * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)),0);
     }
 }
