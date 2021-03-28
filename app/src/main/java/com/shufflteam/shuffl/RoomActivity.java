@@ -65,9 +65,9 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     public void updateVolume(){
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // Takes distance to speaker / total possible distance
-        double screenRatio = currentUser.getPosition().distanceTo(5);
+        double screenRatio = currentUser.getPosition().distanceTo(ballView.getTop()) / ballView.getHeight();
         // Sets volume to MAXVOLUME * the above ratio (NEED CONSTANTS)
         // STREAM_MUSIC is dependant on the kind of audio used (If a call, use RING or something)
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) Math.round(screenRatio * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)),0);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) Math.floor(screenRatio * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)),0);
     }
 }
