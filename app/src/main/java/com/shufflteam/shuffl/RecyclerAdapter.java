@@ -14,9 +14,7 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
-    private List<PlaylistCard> playlistCards;
     private List<com.shufflteam.shuffl.PlaylistCard> playlists;
-    //private ClickListener<Playlist> clickListener;
 
     RecyclerAdapter(List<PlaylistCard> playlists){
         this.playlists = playlists;
