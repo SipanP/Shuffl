@@ -5,15 +5,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,13 +143,26 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Pager<PlaylistSimple> playlistPager = spotify.getPlaylists(currentUserID);
                 for (PlaylistSimple playlist : playlistPager.items){
-                    PlaylistCard playlistCard = new PlaylistCard(playlist.name, R.drawable.playlist_image);
+
+                    Bitmap x;
+
+
+                    HttpURLConnection connection = (HttpURLConnection) new URL(playlist.images.get(0).url).openConnection();
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+
+                    x = BitmapFactory.decodeStream(input);
+                    Drawable pic = new BitmapDrawable(Resources.getSystem(), x);
+
+                    PlaylistCard playlistCard = new PlaylistCard(playlist.name, pic);
                     playlistCards.add(playlistCard);
                     System.out.println(playlist.name);
                 }
-            } catch (RetrofitError error) {
-                SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+            } catch (RetrofitError | MalformedURLException error) {
+                SpotifyError spotifyError = SpotifyError.fromRetrofitError((RetrofitError) error);
                 // handle error
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             // Set up the playlist cards.
@@ -172,22 +193,22 @@ public class MainActivity extends AppCompatActivity {
         AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request);
     }
 
-    private void preparePlaylist(){
-        PlaylistCard playlistCard = new PlaylistCard("Test 1", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 2", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 3", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 4", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 5", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 6", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-        playlistCard = new PlaylistCard("Test 7", R.drawable.playlist_image);
-        playlistCards.add(playlistCard);
-    }
+//    private void preparePlaylist(){
+//        PlaylistCard playlistCard = new PlaylistCard("Test 1", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 2", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 3", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 4", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 5", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 6", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//        playlistCard = new PlaylistCard("Test 7", R.drawable.playlist_image);
+//        playlistCards.add(playlistCard);
+//    }
 
 
 
@@ -229,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     private void connected() {
         // Play a playlist
         try {
-//            mSpotifyAppRemote.getPlayerApi().play(spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL").items.get(0).track.uri);
+            mSpotifyAppRemote.getPlayerApi().play(spotify.getPlaylistTracks("spotify", "37i9dQZF1DX0XUsuxWHRQd").items.get(0).track.uri);
         } catch (RetrofitError error) {
             SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
             // handle error
