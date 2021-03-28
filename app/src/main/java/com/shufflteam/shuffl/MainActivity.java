@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Playlist> playlists;
     private RecyclerView recyclerView;
-    RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new RecyclerAdapter(playlists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
-//            @Override
-//            public void onItemClick(Playlist data) {
-//                Toast.makeText(MainActivity.this, data.getName(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        recyclerAdapter.setOnItemClickListener(new ClickListener<Playlist>(){
+            @Override
+            public void onItemClick(Playlist data) {
+                Toast.makeText(MainActivity.this, data.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(recyclerAdapter);
     }
 

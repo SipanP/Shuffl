@@ -14,6 +14,7 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
     private List<com.shufflteam.shuffl.Playlist> playlists;
+    private ClickListener<Playlist> clickListener;
 
     RecyclerAdapter(List<com.shufflteam.shuffl.Playlist> playlists){
         this.playlists = playlists;
@@ -30,6 +31,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         final com.shufflteam.shuffl.Playlist playlist = playlists.get(position);
         holder.title.setText(playlist.getTitle());
         holder.image.setBackgroundResource(playlist.getImage());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(playlist);
+            }
+        });
     }
 
     @Override
@@ -47,5 +54,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             image = itemView.findViewById(R.id.image);
             cardView = itemView.findViewById(R.id.cardView);
         }
+    }
+
+    public void setOnItemClickListener(ClickListener<Playlist> playlistClickListener) {
+        this.clickListener = playlistClickListener;
     }
 }

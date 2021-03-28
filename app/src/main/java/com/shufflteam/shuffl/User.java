@@ -14,6 +14,7 @@ public class User extends AppCompatActivity implements View.OnTouchListener{
     private final String username;
     private float dX, dY;
     private Button ball;
+    private View ballView;
 
     public User(String username){
         position = new Point(0,0);
@@ -32,10 +33,10 @@ public class User extends AppCompatActivity implements View.OnTouchListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        mainLayout = (RelativeLayout) findViewById(R.id.);
+        ballView = (View) findViewById(R.id.ballView);
         ball = (Button) findViewById(R.id.user1);
 
-        ball.setOnTouchListener(onTouch());
+        ball.setOnTouchListener(this);
     }
 
     @Override
