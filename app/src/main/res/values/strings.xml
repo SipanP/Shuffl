@@ -3,4 +3,10 @@
     <string name="warning_need_token">You need to request an access token first</string>
     <string name="code">Code: %1$s</string>
     <string name="token">Access Token: %1$s</string>
+    <string name="request_token">Request Token</string>
+    <string name="icon_content_desc">Icon</string>
+    <string name="speaker_content_desc">Speaker</string>
+    <string name="sample_song_title">Lady Antebellum - Hello World</string>
+    <string name="skip_room">Skip Room</string>
+    <string name="user_initial">U</string>
 </resources>

@@ -1,7 +1,8 @@
 package com.shufflteam.shuffl;
 
+import static com.shufflteam.shuffl.MainActivity.spotify;
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -17,8 +18,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -31,10 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.RetrofitError;
-
-import static com.shufflteam.shuffl.MainActivity.spotify;
 
 public class RoomActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -42,7 +38,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     private RelativeLayout ballBox;
     private Button ball;
     private User currentUser;
-    private List<User> otherUsers = new ArrayList<>();
+    private final List<User> otherUsers = new ArrayList<>();
     private float dX, dY;
     int numOfOtherUsers = 2;
     private final Random rand = new Random();
@@ -53,14 +49,14 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        songTitle = (TextView) findViewById(R.id.songTitle);
+        songTitle = findViewById(R.id.songTitleTextView);
         songTitle.setText("Abc");
         roomId = getIntent().getStringExtra("roomId");
         getCurrentSong();
     }
 
 
-    private String getCurrentSong(){
+    private String getCurrentSong() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://shuffl-backend.herokuapp.com/api/rooms";
@@ -68,41 +64,30 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                response -> {
 
 
-                        System.out.println("Response is: "+ response);
-                        try {
-                            JSONArray obj = new JSONArray(response);
-                            for(int i = 0; i < obj.length(); i++) {
-                                if (((JSONObject) obj.get(i)).get("_id").equals(roomId)) {
-                                    System.out.println(((JSONObject) obj.get(i)).get("songPlaying"));
-                                    try {
-                                        songTitle.setText(spotify.getTrack(((JSONObject) obj.get(i)).getString("currentSong")).name);
-                                    } catch (RetrofitError error) {
-                                        SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
-                                        // handle error
-                                    }
-
+                    System.out.println("Response is: " + response);
+                    try {
+                        JSONArray obj = new JSONArray(response);
+                        for (int i = 0; i < obj.length(); i++) {
+                            if (((JSONObject) obj.get(i)).get("_id").equals(roomId)) {
+                                System.out.println(((JSONObject) obj.get(i)).get("songPlaying"));
+                                try {
+                                    songTitle.setText(spotify.getTrack(((JSONObject) obj.get(i)).getString("currentSong")).name);
+                                } catch (RetrofitError error) {
+                                    SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+                                    // Handle error
                                 }
-//                                else {
-//                                    System.out.println("no match");
-//                                }
+
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("That didn't work!");
-            }
-        });
+
+
+                }, error -> System.out.println("That didn't work!"));
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
@@ -116,8 +101,8 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
         if (!setup) {
             setup = true;
 
-            ballBox = (RelativeLayout) findViewById(R.id.ballBox);
-            ball = (Button) findViewById(R.id.currentUser);
+            ballBox = findViewById(R.id.ballBox);
+            ball = findViewById(R.id.currentUser);
             ball.setOnTouchListener(this);
             currentUser = new User(ball.getX(), ball.getY(), "vincent", ball);
 
@@ -168,11 +153,11 @@ public class RoomActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void updateVolume() {
-        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // Takes distance to speaker / total possible distance
         double screenRatio = currentUser.getPosition().distanceTo(ballBox.getHeight()) / ballBox.getHeight();
         // Sets volume to MAXVOLUME * the above ratio (NEED CONSTANTS)
         // STREAM_MUSIC is dependant on the kind of audio used (If a call, use RING or something)
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) Math.floor(screenRatio * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)),0);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) Math.floor(screenRatio * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)), 0);
     }
 }

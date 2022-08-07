@@ -7,11 +7,11 @@
     android:background="#2D343E">
 
     <TextView
-        android:id="@+id/songTitle"
+        android:id="@+id/songTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Lady Antebellum - Hello World"
+        android:text="@string/sample_song_title"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/skipRoom"
+        android:id="@+id/skipRoomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:text="Skip Room"
+        android:text="@string/skip_room"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,22 +37,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/songTitle">
+        app:layout_constraintTop_toBottomOf="@+id/songTitleTextView">
 
         <ImageView
             android:id="@+id/LoudSpeakerLeft"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:contentDescription="@string/speaker_content_desc"
             app:srcCompat="@drawable/speaker_icon_loud" />
 
         <ImageView
             android:id="@+id/LoudSpeakerRight"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/speaker_content_desc"
             android:scaleX="-1"
             app:srcCompat="@drawable/speaker_icon_loud" />
 
@@ -60,8 +62,9 @@
             android:id="@+id/QuietSpeakerRight"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:contentDescription="@string/speaker_content_desc"
             android:scaleX="-1"
             app:srcCompat="@drawable/speaker_icon_quiet" />
 
@@ -69,8 +72,9 @@
             android:id="@+id/QuietSpeakerLeft"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
+            android:contentDescription="@string/speaker_content_desc"
             app:srcCompat="@drawable/speaker_icon_quiet" />
 
         <Button
@@ -78,12 +82,12 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
-            app:backgroundTint="@null"
             android:background="@drawable/round_button"
             android:gravity="center_vertical|center_horizontal"
-            android:text="V"
+            android:text="@string/user_initial"
             android:textColor="#fff"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:backgroundTint="@null" />
     </RelativeLayout>
 
 

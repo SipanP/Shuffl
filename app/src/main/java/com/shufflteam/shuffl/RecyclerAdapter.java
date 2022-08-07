@@ -7,22 +7,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    private List<com.shufflteam.shuffl.PlaylistCard> playlists;
+    private final List<com.shufflteam.shuffl.PlaylistCard> playlists;
 
-    RecyclerAdapter(List<PlaylistCard> playlists){
+    RecyclerAdapter(List<PlaylistCard> playlists) {
         this.playlists = playlists;
     }
 
+    @NonNull
     @Override
     public com.shufflteam.shuffl.RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_card_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_card_layout, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -31,14 +33,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         final com.shufflteam.shuffl.PlaylistCard playlist = playlists.get(position);
         holder.title.setText(playlist.getTitle());
         holder.image.setBackground(playlist.getImage());
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String roomId = MainActivity.joinRoom();
-                Intent intent = new Intent(v.getContext(), RoomActivity.class);
-                intent.putExtra("roomId", roomId);
-                v.getContext().startActivity(intent);
-            }
+        holder.cardView.setOnClickListener(v -> {
+            String roomId = MainActivity.joinRoom();
+            Intent intent = new Intent(v.getContext(), RoomActivity.class);
+            intent.putExtra("roomId", roomId);
+            v.getContext().startActivity(intent);
         });
     }
 
@@ -47,15 +46,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return playlists.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private ImageView image;
-        private CardView cardView;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final TextView title;
+        private final ImageView image;
+        private final CardView cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            image = itemView.findViewById(R.id.image);
+            title = itemView.findViewById(R.id.titleTextView);
+            image = itemView.findViewById(R.id.iconImageView);
             cardView = itemView.findViewById(R.id.cardView);
         }
     }

@@ -1,50 +1,28 @@
 package com.shufflteam.shuffl;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.AlbumSimple;
-import kaaes.spotify.webapi.android.models.Albums;
-import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import okhttp3.Call;
-//import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-//import okhttp3.Response;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -132,7 +110,7 @@ public class InitialActivity extends AppCompatActivity {
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
         if (response.getError() != null && response.getError().isEmpty()) {
             System.out.println("Error");
-//            setResponse(response.getError());
+//          setResponse(response.getError());
         }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
             mAccessToken = response.getAccessToken();
@@ -163,7 +141,6 @@ public class InitialActivity extends AppCompatActivity {
                 }
             });
 
-            
             spotify.getPlaylistTracks("225dv6jfkmgoylbeqvjatv3sy", "5Jf7ydhHna8Xt75Wzbk5nL", new Callback<Pager<PlaylistTrack>>() {
                 @Override
                 public void success(Pager<PlaylistTrack> playlistTrackPager, Response response) {
@@ -241,7 +218,7 @@ public class InitialActivity extends AppCompatActivity {
 //    }
 
     private void updateTokenView() {
-        final TextView tokenView = findViewById(R.id.token_text_view);
+        final TextView tokenView = findViewById(R.id.tokenTextView);
         tokenView.setText(getString(R.string.token, mAccessToken));
     }
 
@@ -255,6 +232,4 @@ public class InitialActivity extends AppCompatActivity {
             mCall.cancel();
         }
     }
-
-
 }

@@ -15,16 +15,17 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/iconImageView"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:contentDescription="@string/icon_content_desc"
             android:scaleType="centerCrop"
             cardView:layout_constraintStart_toStartOf="parent"
             cardView:layout_constraintTop_toTopOf="parent"
             tools:background="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/titleTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
@@ -36,7 +37,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             cardView:layout_constraintBottom_toBottomOf="parent"
-            cardView:layout_constraintLeft_toRightOf="@id/image"
+            cardView:layout_constraintLeft_toRightOf="@id/iconImageView"
             cardView:layout_constraintRight_toRightOf="parent"
             cardView:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/full_names" />

@@ -59,23 +59,23 @@ public class MatchToRoom {
 
     /**
      * In client-side: user presses the join button of a certain playlist. A request to get the
-     *                 playlist data is sent to SpotifyAppRemote using APIs.
-     *                 The data of the playlist is now processed to generate the stats and to get a
-     *                 list of the tracks in a nicer way.
-     *                 A request is sent to the backend to be allocated to a room (we pass the playlist,
-     *                 its stats and the user who sent the request).
-     *                 Backend elaborates the request:
-     *                  - adds the user to the pool of users to allocate using this method.
+     * playlist data is sent to SpotifyAppRemote using APIs.
+     * The data of the playlist is now processed to generate the stats and to get a
+     * list of the tracks in a nicer way.
+     * A request is sent to the backend to be allocated to a room (we pass the playlist,
+     * its stats and the user who sent the request).
+     * Backend elaborates the request:
+     * - adds the user to the pool of users to allocate using this method.
      * what do I have:
      * sendJoinRequest: send user information and list of song titles and related artists
-     *
+     * <p>
      * backend knowledge: rooms list. for every room we know the users in it and the shared playlist
-     *
+     * <p>
      * algos to design:
      * 1) when a user wants to join: compare its playlist data with the data of the rooms and choose
-     *    the best one (or create a new one based on the threshold)
+     * the best one (or create a new one based on the threshold)
      * 2) when a new user is assigned to a room, we add its playlist data to the room data
-     *
+     * <p>
      * N.B. when someone leaves we need to be able to remove its playlist data from the room playlist
      * so we can't use only one shared playlist (or we have to keep track who is the user related to every song)
      */
@@ -102,7 +102,7 @@ public class MatchToRoom {
         Map<Artist, Integer> artistOccurrences = countArtistOccurrences(newUsersTracks);
 
         int score = 0;
-        for (Track track: roomTracks.tracks) {
+        for (Track track : roomTracks.tracks) {
             score += artistOccurrences.getOrDefault(track.artist, 0);
         }
 
@@ -122,7 +122,7 @@ public class MatchToRoom {
         Track[] tracks = new Track[allTracks.size()];
         Boolean[] alreadyPlayed = new Boolean[allTracks.size()];
         int index = 0;
-        for (Track track: allTracks.keySet()) {
+        for (Track track : allTracks.keySet()) {
             tracks[index] = track;
             alreadyPlayed[index] = allTracks.get(track);
             index++;
@@ -141,7 +141,7 @@ public class MatchToRoom {
 
     private static Map<Artist, Integer> countArtistOccurrences(MockPlaylist tracks) {
         Map<Artist, Integer> artistOccurrences = new HashMap<>();
-        for (Track track: tracks.tracks) {
+        for (Track track : tracks.tracks) {
             int cnt = artistOccurrences.getOrDefault(track.artist, 0);
             artistOccurrences.put(track.artist, cnt + 1);
         }
@@ -203,7 +203,7 @@ class MockPlaylist {
 
     }
 
-    class Wrapper{
+    static class Wrapper {
         private final Track track;
 
         private final boolean played;

@@ -9,7 +9,6 @@ public class User {
 
     private final Point position;
     private final String username;
-    private final Button ball;
 
     public User(String username, Button ball) {
         this(0, 0, username, ball);
@@ -18,7 +17,6 @@ public class User {
     public User(float x, float y, String username, Button ball) {
         position = new Point(x, y);
         this.username = username;
-        this.ball = ball;
         ball.setText(getInitial());
         float scale = ball.getContext().getResources().getDisplayMetrics().density;
         int pixels = (int) (50 * scale + 0.5f);
@@ -37,6 +35,6 @@ public class User {
     }
 
     public String getInitial() {
-        return username.substring(0,1).toUpperCase();
+        return username.substring(0, 1).toUpperCase();
     }
 }
